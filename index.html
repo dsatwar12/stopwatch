@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+</head>
+<body>
+    <h1>Stopwatch</h1>
+    <div id="display">00:00:00</div>
+    <button onclick="stopwatch('start')">Start</button>
+    <button onclick="stopwatch('stop')">Stop</button>
+    <button onclick="stopwatch('reset')">Reset</button>
+
+    <script>
+        let seconds = 0;
+        let minutes = 0;
+        let hours = 0;
+        let interval = null;
+
+        function updateDisplay() {
+            const sec = seconds < 10 ? '0' + seconds : seconds;
+            const min = minutes < 10 ? '0' + minutes : minutes;
+            const hr = hours < 10 ? '0' + hours : hours;
+            document.getElementById('display').innerText = `${hr}:${min}:${sec}`;
+        }
+
+        function stopwatch(action) {
+            switch (action) {
+                case 'start':
+                    if (interval) {
+                        clearInterval(interval);
+                    }
+                    interval = setInterval(() => {
+                        seconds++;
+                        if (seconds === 60) {
+                            seconds = 0;
+                            minutes++;
+                        }
+                        if (minutes === 60) {
+                            minutes = 0;
+                            hours++;
+                        }
+                        updateDisplay();
+                    }, 1000);
+                    break;
+
+                case 'stop':
+                    clearInterval(interval);
+                    break;
+
+                case 'reset':
+                    clearInterval(interval);
+                    seconds = 0;
+                    minutes = 0;
+                    hours = 0;
+                    updateDisplay();
+                    break;
+
+                default:
+                    console.log('Invalid action');
+            }
+        }
+    </script>
+</body>
+</html>
